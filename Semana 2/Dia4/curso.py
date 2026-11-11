@@ -43,5 +43,22 @@ class Curso:
                         alumno.anotar(float(n))
                 self.alumnos.append(alumno)
 
+    def guardar_csv(self, ruta):
+        with open(ruta, "w", newline="", encoding="utf-8") as f:
+            escritor = csv.writer(f)
+            for a in self.alumnos:
+                escritor.writerow([a.nombre, *a.notas])
+ 
+    def cargar_csv(self, ruta):
+        self.alumnos = []
+        with open(ruta, newline="", encoding="utf-8") as f:
+            for fila in csv.reader(f):
+                if not fila:
+                    continue
+                alumno = Alumno(fila[0])
+                for n in fila[1:]:
+                    alumno.anotar(float(n))
+                self.alumnos.append(alumno)
+
     def __str__ (self):
         return f"{self.alumnos}"
